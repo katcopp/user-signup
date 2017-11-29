@@ -13,16 +13,19 @@ form = """
         <form action="/new-user" method="post">
             <label for="username">Username:       </label>
             <input id="username" type="text" name="username" value='{username}' /> 
-            <p class = "error"> {invalid_username}</p> <br>
+            <span class = "error"> {invalid_username}</span> <br> <br>
+
             <label for="password">Password:       </label>
             <input id="password1" type="password" name="password1" value='{password1}'/>
-            <p class = "error"> {invalid_password}</p> <br>
+            <span class = "error"> {invalid_password}</span> <br> <br>
+
             <label for="password">Verify Password:</label>
             <input id="password2" type="password" name="password2" value='{password2}'/>
-            <p class = "error"> {password_mismatch}</p> <br>
+            <span class = "error"> {password_mismatch}</span> <br> <br>
+
             <label for="email">Email (optional):</label>
             <input id="email" type="text" name="email" value='{email}'/>
-            <p class = "error"> {invalid_email}</p> <br>
+            <span class = "error"> {invalid_email}</span> <br> <br>
             <input type="submit" />
         </form>
 
@@ -53,6 +56,8 @@ def new_user():
     if not username or len(username) < 3 or len(username)>20 or ' ' in username:
         invalid_username = "Please enter a valid username!"
         username = ''
+        password1 = ''
+        password2 = ''
         error_present= True
 
 
@@ -66,6 +71,14 @@ def new_user():
          password2 = ''
          password1 = ''
          error_present= True
+
+    if email:
+        if '@' not in email or '.' not in email or ' ' in email or len(email) < 3 or len(email)>20:
+            invalid_email = "Please enter a valid email!"
+            email = ''
+            password1 = ''
+            password2 = ''
+            error_present = True
     
     if not error_present:
         return '<h1>Hello, ' + username + '! </h1>'
